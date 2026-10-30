@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Audyt strony – dashboard testów</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<a class="skip-link" href="#main">Przejdź do treści</a>
+
+	<header class="site-header">
+		<div class="wrap header-inner">
+			<div>
+				<p class="eyebrow">Cypress · axe-core · pixelmatch</p>
+				<h1>Audyt strony</h1>
+			</div>
+			<div class="run-picker">
+				<label for="run-select">Wyniki z uruchomienia</label>
+				<select id="run-select" disabled><option>Brak wyników</option></select>
+			</div>
+		</div>
+	</header>
+
+	<div class="wrap layout">
+		<nav class="sidebar" aria-label="Kategorie audytu">
+			<ul id="nav-list" role="list"></ul>
+		</nav>
+
+		<main id="main" tabindex="-1">
+			<section class="panel run-panel" aria-labelledby="run-heading">
+				<h2 id="run-heading">Uruchom testy</h2>
+				<p id="api-missing" class="note" hidden>
+					Uruchamianie testów działa tylko przez serwer dashboardu: <code>npm run dashboard</code>.
+				</p>
+				<form id="run-form">
+					<div class="field">
+						<label for="base-url">Adres testowanej strony</label>
+						<input id="base-url" name="baseUrl" type="url" inputmode="url" autocomplete="url" required
+							aria-describedby="base-url-hint">
+						<p id="base-url-hint" class="hint">Testuj kopię strony, nie produkcję. Wzorce wizualne są zapisywane osobno dla każdej domeny.</p>
+					</div>
+					<fieldset class="specs">
+						<legend>Zakres stron</legend>
+						<div class="spec-list" role="presentation">
+							<label><input type="radio" name="pageSource" value="home" checked> Tylko strona główna</label>
+							<label><input type="radio" name="pageSource" value="crawl"> Linki ze strony głównej</label>
+							<label><input type="radio" name="pageSource" value="sitemap"> Mapa strony (sitemap)</label>
+							<label><input type="radio" name="pageSource" value="list"> Własna lista adresów</label>
+						</div>
+						<div class="field inline-field" id="max-pages-field">
+							<label for="max-pages">Maksymalna liczba stron</label>
+							<input id="max-pages" type="number" min="1" max="100" value="10" inputmode="numeric" aria-describedby="max-pages-hint">
+							<p id="max-pages-hint" class="hint">Każda strona wydłuża audyt – Lighthouse to ok. 20 s na stronę i urządzenie.</p>
+						</div>
+						<div class="field" id="page-list-field" hidden>
+							<label for="page-list">Adresy do sprawdzenia</label>
+							<textarea id="page-list" rows="4" aria-describedby="page-list-hint" placeholder="/
+/kontakt
+/sklep/koszyk"></textarea>
+							<p id="page-list-hint" class="hint">Jeden adres w wierszu: ścieżka (/kontakt) albo pełny URL. Adresy z innej domeny zostaną przeniesione na testowaną.</p>
+						</div>
+					</fieldset>
+					<fieldset class="specs">
+						<legend>Kategorie testów</legend>
+						<div class="spec-actions">
+							<button type="button" class="link-button" data-select="all">Zaznacz wszystkie</button>
+							<button type="button" class="link-button" data-select="none">Odznacz wszystkie</button>
+						</div>
+						<div id="spec-list" class="spec-list"></div>
+					</fieldset>
+					<div class="run-actions">
+						<button id="run-button" type="submit" class="primary">Uruchom testy</button>
+						<progress id="run-progress" max="1" value="0" hidden aria-label="Postęp testów"></progress>
+					</div>
+					<p id="run-progress-text" class="run-status"></p>
+					<p id="run-status" role="status" class="visually-hidden"></p>
+					<details id="log-details">
+						<summary>Log Cypressa</summary>
+						<pre id="run-log" tabindex="0" aria-label="Log Cypressa"></pre>
+					</details>
+				</form>
+			</section>
+
+			<div id="view" aria-live="off"></div>
+		</main>
+	</div>
+
+	<script type="module" src="app.js"></script>
+</body>
+</html>

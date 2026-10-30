@@ -1,0 +1,8 @@
+node_modules/
+cypress/videos/
+cypress/screenshots/
+cypress.env.json
+dashboard/results.json
+cypress/visual/*/actual/
+cypress/visual/*/diff/
+dashboard/reports/
